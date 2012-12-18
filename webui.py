@@ -194,7 +194,6 @@ def results():
     config = get_config()
     query = get_query()
     qs = query_to_recoll_string(query)
-    pprint(query)
     res, timer = recoll_search(qs, query['sort'], query['ascending'])
     return { 'res': res, 'time': timer, 'query': query, 'dirs':
             get_dirs(config['dirs'], config['dirdepth']),'qs': qs, 'sorts': SORTS, 'config': config,
