@@ -1,0 +1,117 @@
+body { 
+	margin: 0; 
+	font-family: sans;
+}
+#searchbox {
+	background: #eee;
+	border-bottom: 1px solid #666;
+}
+
+#status { padding: 1.5em; }
+#found { float: left; }
+#downloads { position: fixed; bottom: 2px; right: 7px; margin-left: 1em; }
+#downloads a { 
+	border: 1px solid #aaa;
+	padding: 5px;
+	background: #f8f8f8;
+	color: #999;
+	font-size: 7pt;
+}
+#downloads a:hover { background: #ccc; color: white  }
+
+#results { padding: 1em; }
+.search-result {
+	margin-left: 15%;
+	margin-right: 15%;
+	background: #fff;
+	padding-bottom: 0.5em;
+	padding-top: 1em;
+}
+.search-result-title, .search-result-ipath { 
+	margin-bottom: 6px;
+	font-weight: bold;
+	font-size: 12pt;
+	float: left;
+}
+.search-result-ipath { color: #aaa; padding-left: 1em; }
+.search-result-title a { text-decoration: none; color: black; }
+.search-result-author {
+	clear: both;
+	color: #666;
+	font-size: 7pt;
+	margin-bottom: 6px
+}
+.search-result-number {
+	width: 4em;
+	float: left;
+	margin-left: -5em;
+	text-align: right;
+}
+.search-result-number a { font-size: 10pt; font-weight: normal; color:#bbb; background: #f8f8f8; padding: 4px; }
+.search-result-number a:hover { color:white; background: #ccc; }
+.search-result-snippet { 
+	margin-left: 1px;
+	margin-top: 2px;
+	font-size: 10pt;
+	text-align: justify;
+	border-left: 3px solid #ddd;
+	padding-left: 1em;
+	color: #444; clear: both;
+	font-family: serif;
+}
+.search-result-url { clear:left; }
+.search-result-url a { color: #5a5; font-size: 8pt; float: left; margin-right: 1em;}
+.search-result-date { color: #777; font-size: 8pt; float: right; margin-bottom: 7px; }
+.search-result-size { color: #777; font-size: 8pt; float: right; display: none; }
+.search-result-highlight { color: #7E1212; font-weight: bold; }
+.gray { color: #aaa }
+
+a { text-decoration: none }
+table td {
+	padding: 10;
+	border-right: 1px dotted black ;
+	border-collapse: collapse;
+}
+table td:last-child {
+	border-right: 0px;
+}
+form { margin: 0 }
+input, select {
+	margin-top: 2px;
+	margin-bottom: 2px;
+	background: white; 
+	border: 1px solid #999; 
+	padding: 3px;
+	width: 100%;
+	color: #555;
+}
+input:focus, button:focus, select:focus{
+	border: 1px solid black;
+	color: black;
+}
+input[type=button],input[type=reset],input[type=submit] { width: 32%; }
+input[type=button]:hover,input[type=reset]:hover,input[type=submit]:hover{ color:white; background: #ccc; cursor: pointer; }
+input[type=reset]:hover,input[type=submit]:hover { }
+input[name=before], input[name=after] { width: 45% }
+tr { vertical-align: top }
+
+#settings-box {
+	padding: 1em;
+	position: absolute;
+	top: 10%;
+	left: 30%;
+	right: 30%;
+	background: #eee;
+	border: 1px solid #999;
+}
+hr { border: 1px solid #999 }
+
+#fade {
+	position: absolute;
+	width: 100%;
+	z-index: 1;
+	opacity: 0.7;
+	background: white;
+	display: none;
+}
+
