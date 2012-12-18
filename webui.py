@@ -26,6 +26,7 @@ DEFAULTS = {
     'stem': 1,
     'timefmt': '%c',
     'dirdepth': 3,
+    'maxchars': 500,
 }
 
 # sort fields/labels
@@ -152,7 +153,7 @@ def recoll_search(q, sort, ascending):
     tstart = datetime.datetime.now()
     results = []
     db = recoll.connect()
-    db.setAbstractParams(contextwords=int(config['context']), maxchars=5000)
+    db.setAbstractParams(contextwords=int(config['context']), maxchars=config['maxchars'])
     query = db.query()
     query.sortby(sort, int(ascending))
     try:

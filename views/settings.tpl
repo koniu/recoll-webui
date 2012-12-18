@@ -8,6 +8,8 @@
 	<hr>
 	<b>Context words</b> <small class="gray">(number of words shown in search results)</small>
 	<input name="context" value={{context}}><br><br>
+	<b>Context characters</b> <small class="gray">(max characters in a snippet)</small>
+	<input name="maxchars" value={{maxchars}}><br><br>
 	<b>Time</b> <small class="gray">(time format string)</small>
 	<input name="timefmt" value={{timefmt}}><br><br>
 	<b>Folder depth</b> <small class="gray">(number of levels of the folder dropdown)</small>
