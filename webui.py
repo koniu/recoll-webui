@@ -153,11 +153,11 @@ def recoll_search(q, sort, ascending):
     tstart = datetime.datetime.now()
     results = []
     db = recoll.connect()
-    db.setAbstractParams(contextwords=int(config['context']), maxchars=config['maxchars'])
+    db.setAbstractParams(int(config['context']), config['maxchars'])
     query = db.query()
     query.sortby(sort, int(ascending))
     try:
-        nres = query.execute(q, stemming=int(config['stem']))
+        nres = query.execute(q, int(config['stem']))
     except:
         nres = 0
     for i in range(0, nres):
