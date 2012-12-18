@@ -1,6 +1,6 @@
 %import shlex, unicodedata
 %def strip_accents(s): return ''.join((c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn'))
-%include header title=" - " + query['keywords']+" ("+str(len(res))+")"
+%include header title=": " + query['keywords']+" ("+str(len(res))+")"
 %include search query=query, dirs=dirs, sorts=sorts
 <div id="status">
     <div id="found">

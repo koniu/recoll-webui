@@ -1,4 +1,4 @@
-%include header title="docsearch / settings"
+%include header title=" / settings"
 <div id="settings-box">
 <form action="set" method="get">
 	<b>Prefix</b> <small class="gray">(location of documents on local drive)</small>
