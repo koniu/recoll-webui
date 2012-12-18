@@ -1,5 +1,5 @@
-body { 
-	margin: 0; 
+body {
+	margin: 0;
 	font-family: sans;
 }
 #searchbox {
@@ -10,7 +10,7 @@ body {
 #status { padding: 1.5em; }
 #found { float: left; }
 #downloads { position: fixed; bottom: 2px; right: 7px; margin-left: 1em; }
-#downloads a { 
+#downloads a {
 	border: 1px solid #aaa;
 	padding: 5px;
 	background: #f8f8f8;
@@ -27,7 +27,7 @@ body {
 	padding-bottom: 0.5em;
 	padding-top: 1em;
 }
-.search-result-title, .search-result-ipath { 
+.search-result-title, .search-result-ipath {
 	margin-bottom: 6px;
 	font-weight: bold;
 	font-size: 12pt;
@@ -49,7 +49,7 @@ body {
 }
 .search-result-number a { font-size: 10pt; font-weight: normal; color:#bbb; background: #f8f8f8; padding: 4px; }
 .search-result-number a:hover { color:white; background: #ccc; }
-.search-result-snippet { 
+.search-result-snippet {
 	margin-left: 1px;
 	margin-top: 2px;
 	font-size: 10pt;
@@ -79,8 +79,8 @@ form { margin: 0 }
 input, select {
 	margin-top: 2px;
 	margin-bottom: 2px;
-	background: white; 
-	border: 1px solid #999; 
+	background: white;
+	border: 1px solid #999;
 	padding: 3px;
 	width: 100%;
 	color: #555;

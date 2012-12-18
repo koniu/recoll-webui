@@ -17,10 +17,8 @@
 <div id="results">
 %for i in range(0, len(res)):
 %d = res[i]
-<div class="search-result"> 
-    <div class="search-result-number"><a href="#r{{d['sha']}}">#{{i+1}}</a>
-    
-    </div>
+<div class="search-result">
+    <div class="search-result-number"><a href="#r{{d['sha']}}">#{{i+1}}</a></div>
     <div class="search-result-title" id="r{{d['sha']}}" title="{{d['abstract']}}"><a href="{{d['url']}}">{{d['label']}}</a></div>
     %if len(d['ipath']) > 0:
         <div class="search-result-ipath">[{{d['ipath']}}]</div>

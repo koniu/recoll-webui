@@ -85,7 +85,7 @@
 	border:1px solid #ccc;
 	position:relative;
 	top:2px
-}  
+}
 
 .jdpicker_w .date_selector .month_name, .jdpicker_w .date_selector .year_name {
 	font-weight: bold;
@@ -161,7 +161,7 @@
 	background: white;
 }
 .jdpicker_w .date_selector td.today {
-	color: darkorange !important; 
+	color: darkorange !important;
 }
 .jdpicker_w .date_selector td.unselected_month {
 	color: #ccc;
@@ -171,7 +171,7 @@
 	color:#333
 }
 .jdpicker_w .date_selector td.selected, .jdpicker_w .date_selector tr.selected  td{
-	background: lightgreen; 
+	background: lightgreen;
 	font-weight: bold;
 }
 .jdpicker_w .date_selector tr.selectable_week.hover td, .jdpicker_w .date_selector td.selectable_day.hover {
