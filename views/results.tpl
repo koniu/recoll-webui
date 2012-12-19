@@ -19,7 +19,11 @@
 %d = res[i]
 <div class="search-result">
     <div class="search-result-number"><a href="#r{{d['sha']}}">#{{i+1}}</a></div>
-    <div class="search-result-title" id="r{{d['sha']}}" title="{{d['abstract']}}"><a href="{{d['url']}}">{{d['label']}}</a></div>
+    %url = d['url'].replace('file://', '')
+    %for dr, prefix in config['mounts'].items():
+        %url = url.replace(dr, prefix)
+    %end
+    <div class="search-result-title" id="r{{d['sha']}}" title="{{d['abstract']}}"><a href="{{url}}">{{d['label']}}</a></div>
     %if len(d['ipath']) > 0:
         <div class="search-result-ipath">[{{d['ipath']}}]</div>
     %end
@@ -27,13 +31,11 @@
         <div class="search-result-author">{{d['author']}}</div>
     %end
     <div class="search-result-url">
-        <a href="{{d['url'].replace('/'+d['filename'],'')}}">
-            %urllabel = d['url'].replace('/'+d['filename'],'').replace('file://','')
-            %for r in roots:
-                %urllabel = urllabel.replace(r.rsplit('/',1)[0] + '/' , '')
-            %end
-            {{urllabel}}
-        </a>
+        %urllabel = d['url'].replace('/'+d['filename'],'').replace('file://','')
+        %for r in roots:
+            %urllabel = urllabel.replace(r.rsplit('/',1)[0] + '/' , '')
+        %end
+        <a href="{{url.replace('/'+d['filename'],'')}}">{{urllabel}}</a>
     </div>
     <div class="search-result-date">{{d['time']}}</div>
     %for q in shlex.split(query['keywords'].replace("'","\\'")):

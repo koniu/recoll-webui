@@ -13,6 +13,7 @@ import StringIO
 import ConfigParser
 import string
 import shlex
+import urllib
 from pprint import pprint
 #}}}
 #{{{ settings
@@ -111,6 +112,11 @@ def get_config():
     # get config from cookies or defaults
     for k, v in DEFAULTS.items():
         config[k] = select([bottle.request.get_cookie(k), v])
+    # get mountpoints
+    config['mounts'] = {}
+    for d in config['dirs']:
+        name = 'mount_%s' % urllib.quote(d,'')
+        config['mounts'][d] = select([bottle.request.get_cookie(name), 'file://%s' % d], [None, ''])
     return config
 #}}}
 #{{{ get_dirs
@@ -237,8 +243,12 @@ def settings():
 
 @bottle.route('/set')
 def set():
+    config = get_config()
     for k, v in DEFAULTS.items():
         bottle.response.set_cookie(k, str(bottle.request.query.get(k)), max_age=3153600000)
+    for d in config['dirs']:
+        cookie_name = 'mount_%s' % urllib.quote(d, '')
+        bottle.response.set_cookie(cookie_name, str(bottle.request.query.get('mount_%s' % d)), max_age=3153600000)
     bottle.redirect('..')
 #}}}
 #}}}
