@@ -32,7 +32,7 @@
     %end
     <div class="search-result-url">
         %urllabel = d['url'].replace('/'+d['filename'],'').replace('file://','')
-        %for r in roots:
+        %for r in config['dirs']:
             %urllabel = urllabel.replace(r.rsplit('/',1)[0] + '/' , '')
         %end
         <a href="{{url.replace('/'+d['filename'],'')}}">{{urllabel}}</a>

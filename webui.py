@@ -22,7 +22,6 @@ RECOLL_CONFS = [ '~/.recoll/recoll.conf', '/etc/recoll.conf' ]
 
 # settings defaults
 DEFAULTS = {
-    'prefix': 'z:/',
     'context': 30,
     'stem': 1,
     'timefmt': '%c',
@@ -204,7 +203,7 @@ def results():
     res, timer = recoll_search(qs, query['sort'], query['ascending'])
     return { 'res': res, 'time': timer, 'query': query, 'dirs':
             get_dirs(config['dirs'], config['dirdepth']),'qs': qs, 'sorts': SORTS, 'config': config,
-            'query_string': bottle.request.query_string, 'roots': config['dirs'] }
+            'query_string': bottle.request.query_string }
 #}}}
 #{{{ json
 @bottle.route('/json')
