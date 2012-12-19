@@ -153,7 +153,7 @@ def recoll_search(q, sort, ascending):
     tstart = datetime.datetime.now()
     results = []
     db = recoll.connect()
-    db.setAbstractParams(int(config['context']), config['maxchars'])
+    db.setAbstractParams(int(config['maxchars']), int(config['context']))
     query = db.query()
     query.sortby(sort, int(ascending))
     try:
