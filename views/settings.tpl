@@ -2,16 +2,16 @@
 <div id="settings-box">
 <form action="set" method="get">
 	<b>Find similar</b> <small class="gray">(1 or 0, show "squats" and "squatter")</small>
-	<input name="stem" value={{stem}}><br><br>
+	<input name="stem" value={{stem}}>
 	<hr>
 	<b>Context words</b> <small class="gray">(number of words shown in search results)</small>
-	<input name="context" value={{context}}><br><br>
+	<input name="context" value={{context}}>
 	<b>Context characters</b> <small class="gray">(max characters in a snippet)</small>
-	<input name="maxchars" value={{maxchars}}><br><br>
+	<input name="maxchars" value={{maxchars}}>
 	<b>Time</b> <small class="gray">(time format string)</small>
-	<input name="timefmt" value={{timefmt}}><br><br>
+	<input name="timefmt" value={{timefmt}}>
 	<b>Folder depth</b> <small class="gray">(number of levels of the folder dropdown)</small>
-	<input name="dirdepth" value={{dirdepth}}><br><br>
+	<input name="dirdepth" value={{dirdepth}}>
 	<hr>
 	<b>Locations</b><br>
 	%for d in dirs:
