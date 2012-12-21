@@ -27,6 +27,7 @@ DEFAULTS = {
     'timefmt': '%c',
     'dirdepth': 3,
     'maxchars': 500,
+    'maxresults': 100,
 }
 
 # sort fields/labels
@@ -165,7 +166,7 @@ def recoll_search(q, sort, ascending):
         nres = query.execute(q, int(config['stem']))
     except:
         nres = 0
-    for i in range(0, nres):
+    for i in range(0, min(nres, int(config['maxresults']))):
         doc = query.fetchone()
         d = {}
         for f in FIELDS:

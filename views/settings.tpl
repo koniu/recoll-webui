@@ -3,6 +3,8 @@
 <form action="set" method="get">
 	<b>Find similar</b> <small class="gray">(1 or 0, show "squats" and "squatter")</small>
 	<input name="stem" value={{stem}}>
+	<b>Max results</b> <small class="gray">(maximum number of results to show)</small>
+	<input name="maxresults" value={{maxresults}}>
 	<hr>
 	<b>Context words</b> <small class="gray">(number of words shown in search results)</small>
 	<input name="context" value={{context}}>
