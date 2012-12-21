@@ -111,7 +111,11 @@ def get_config():
     config['dirs'] = shlex.split(rc['main']['topdirs'])
     # get config from cookies or defaults
     for k, v in DEFAULTS.items():
-        config[k] = select([bottle.request.get_cookie(k), v])
+        try:
+            value = type(v)(bottle.request.get_cookie(k))
+        except:
+            value = v
+        config[k] = value
     # get mountpoints
     config['mounts'] = {}
     for d in config['dirs']:
@@ -124,7 +128,7 @@ def get_dirs(tops, depth):
     v = []
     for top in tops:
         dirs = [top]
-        for d in range(1, int(depth)+1):
+        for d in range(1, depth+1):
             dirs = dirs + glob.glob(top + '/*' * d)
         dirs = filter(lambda f: os.path.isdir(f), dirs)
         top_path = top.rsplit('/', 1)[0]
@@ -140,7 +144,7 @@ def get_query():
         'after': select([bottle.request.query.get('after'), '']),
         'dir': select([bottle.request.query.get('dir'), '', '<all>'], [None, '']),
         'sort': select([bottle.request.query.get('sort'), SORTS[0][0]]),
-        'ascending': select([bottle.request.query.get('ascending'), 0]),
+        'ascending': int(select([bottle.request.query.get('ascending'), 0])),
     }
     return query
 #}}}
@@ -159,14 +163,14 @@ def recoll_search(q, sort, ascending):
     tstart = datetime.datetime.now()
     results = []
     db = recoll.connect()
-    db.setAbstractParams(int(config['maxchars']), int(config['context']))
+    db.setAbstractParams(config['maxchars'], config['context'])
     query = db.query()
-    query.sortby(sort, int(ascending))
+    query.sortby(sort, ascending)
     try:
-        nres = query.execute(q, int(config['stem']))
+        nres = query.execute(q, config['stem'])
     except:
         nres = 0
-    for i in range(0, min(nres, int(config['maxresults']))):
+    for i in range(0, min(nres, config['maxresults'])):
         doc = query.fetchone()
         d = {}
         for f in FIELDS:
