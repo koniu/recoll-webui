@@ -18,7 +18,7 @@ from pprint import pprint
 #}}}
 #{{{ settings
 # recoll settings
-RECOLL_CONFS = [ '~/.recoll/recoll.conf', '/etc/recoll.conf' ]
+RECOLL_CONFS = [ '~/.recoll/recoll.conf', '/usr/share/recoll/examples/recoll.conf' ]
 
 # settings defaults
 DEFAULTS = {
