@@ -1,5 +1,5 @@
-body {	margin: 0 }
-* { font-family: sans-serif  }
+body {	margin: 0; font-family: sans-serif }
+* { font-family: inherit  }
 #searchbox {
 	background: #eee;
 	border-bottom: 1px solid #666;
