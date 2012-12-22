@@ -8,17 +8,16 @@ body {	margin: 0 }
 #status {
 	margin: 1em;
 	background: #fcfcfc;
-	border: 1px solid #efefef;
+	border: 1px solid #eaeaea;
 	color: #666;
 	font-size: 9pt;
-	padding: 0.5em;
 }
-#found { float: left }
-#downloads { float: right; }
+#found { float: left; 	padding: 0.5em; }
+#downloads { float: right; border-left: 1px solid #eaeaea; padding: 0.5em } 
 #downloads a {
-	padding: 5 3 5 3;
+	padding: 5px;
 	color: #999;
-	text-decoration: underline;
+	font-size: 7pt;
 }
 #downloads a:hover { background: #ccc; color: white  }
 
