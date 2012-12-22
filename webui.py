@@ -27,7 +27,7 @@ DEFAULTS = {
     'timefmt': '%c',
     'dirdepth': 3,
     'maxchars': 500,
-    'maxresults': 100,
+    'maxresults': 0,
     'perpage': 25,
 }
 
