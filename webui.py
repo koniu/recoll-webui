@@ -88,19 +88,17 @@ def normalise_filename(fn):
             out += "_"
     return out
 #}}}
-#{{{ get_config
-def get_config():
-    config = {}
+#{{{ recoll_get_config
+def recoll_get_config():
     # find recoll.conf
-    for f in RECOLL_CONFS:
-        f = os.path.expanduser(f)
-        f = os.path.expandvars(f)
-        f += '/recoll.conf'
-        if os.path.isfile(f):
-            path = f
+    for d in RECOLL_CONFS:
+        d = os.path.expanduser(d)
+        d = os.path.expandvars(d)
+        if os.path.isdir(d):
+            confdir = d
             break
     # read recoll.conf
-    rc_ini_str = '[main]\n' + open(path, 'r').read()
+    rc_ini_str = '[main]\n' + open(confdir + '/recoll.conf', 'r').read()
     rc_ini_fp = StringIO.StringIO(rc_ini_str)
     rc_ini = ConfigParser.RawConfigParser()
     rc_ini.readfp(rc_ini_fp)
@@ -110,7 +108,13 @@ def get_config():
         rc[s] = {}
         for k, v in rc_ini.items(s):
             rc[s][k] = v
+    return confdir, rc
+#}}}
+#{{{ get_config
+def get_config():
+    config = {}
     # get useful things from recoll.conf
+    config['confdir'], rc = recoll_get_config()
     config['dirs'] = shlex.split(rc['main']['topdirs'])
     # get config from cookies or defaults
     for k, v in DEFAULTS.items():
@@ -163,7 +167,7 @@ def recoll_search(q):
     config = get_config()
     tstart = datetime.datetime.now()
     results = []
-    db = recoll.connect()
+    db = recoll.connect(config['confdir'])
     db.setAbstractParams(config['maxchars'], config['context'])
     query = db.query()
     query.sortby(q['sort'], q['ascending'])
