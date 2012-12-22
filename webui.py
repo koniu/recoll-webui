@@ -112,11 +112,8 @@ def get_config():
     config['dirs'] = shlex.split(rc['main']['topdirs'])
     # get config from cookies or defaults
     for k, v in DEFAULTS.items():
-        try:
-            value = type(v)(bottle.request.get_cookie(k))
-        except:
-            value = v
-        config[k] = value
+        value = select([bottle.request.get_cookie(k), v])
+        config[k] = type(v)(value)
     # get mountpoints
     config['mounts'] = {}
     for d in config['dirs']:
