@@ -18,7 +18,7 @@ from pprint import pprint
 #}}}
 #{{{ settings
 # recoll settings
-RECOLL_CONFS = [ '~/.recoll/recoll.conf', '/usr/share/recoll/examples/recoll.conf' ]
+RECOLL_CONFS = [ '$RECOLL_CONFDIR', '~/.recoll', '/usr/share/recoll/examples' ]
 
 # settings defaults
 DEFAULTS = {
@@ -94,6 +94,8 @@ def get_config():
     # find recoll.conf
     for f in RECOLL_CONFS:
         f = os.path.expanduser(f)
+        f = os.path.expandvars(f)
+        f += '/recoll.conf'
         if os.path.isfile(f):
             path = f
             break
