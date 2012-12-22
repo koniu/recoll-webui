@@ -28,6 +28,7 @@ DEFAULTS = {
     'dirdepth': 3,
     'maxchars': 500,
     'maxresults': 100,
+    'perpage': 25,
 }
 
 # sort fields/labels
@@ -139,18 +140,19 @@ def get_dirs(tops, depth):
 #{{{ get_query
 def get_query():
     query = {
-        'keywords': select([bottle.request.query.get('query'), '']),
+        'query': select([bottle.request.query.get('query'), '']),
         'before': select([bottle.request.query.get('before'), '']),
         'after': select([bottle.request.query.get('after'), '']),
         'dir': select([bottle.request.query.get('dir'), '', '<all>'], [None, '']),
         'sort': select([bottle.request.query.get('sort'), SORTS[0][0]]),
         'ascending': int(select([bottle.request.query.get('ascending'), 0])),
+        'page': int(select([bottle.request.query.get('page'), 1])),
     }
     return query
 #}}}
 #{{{ query_to_recoll_string
 def query_to_recoll_string(q):
-    qs = q['keywords'].decode('utf-8')
+    qs = q['query'].decode('utf-8')
     if len(q['after']) > 0 or len(q['before']) > 0:
         qs += " date:%s/%s" % (q['after'], q['before'])
     if q['dir'] != '<all>':
@@ -158,19 +160,28 @@ def query_to_recoll_string(q):
     return qs
 #}}}
 #{{{ recoll_search
-def recoll_search(q, sort, ascending):
+def recoll_search(q):
     config = get_config()
     tstart = datetime.datetime.now()
     results = []
     db = recoll.connect()
     db.setAbstractParams(config['maxchars'], config['context'])
     query = db.query()
-    query.sortby(sort, ascending)
+    query.sortby(q['sort'], q['ascending'])
     try:
-        nres = query.execute(q, config['stem'])
+        qs = query_to_recoll_string(q)
+        nres = query.execute(qs, config['stem'])
     except:
         nres = 0
-    for i in range(0, min(nres, config['maxresults'])):
+    if config['maxresults'] == 0:
+        config['maxresults'] = nres
+    if nres > config['maxresults']:
+        nres = config['maxresults']
+    if config['perpage'] == 0:
+        config['perpage'] = nres
+    offset = (q['page'] - 1) * config['perpage']
+    query.next = offset
+    while query.next >= 0 and query.next < offset + config['perpage'] and query.next < nres:
         doc = query.fetchone()
         d = {}
         for f in FIELDS:
@@ -181,7 +192,7 @@ def recoll_search(q, sort, ascending):
         d['snippet'] = db.makeDocAbstract(doc, query).encode('utf-8')
         results.append(d)
     tend = datetime.datetime.now()
-    return results, tend - tstart
+    return results, nres, tend - tstart
 #}}}
 #}}}
 #{{{ routes
@@ -205,10 +216,14 @@ def results():
     config = get_config()
     query = get_query()
     qs = query_to_recoll_string(query)
-    res, timer = recoll_search(qs, query['sort'], query['ascending'])
+    res, nres, timer = recoll_search(query)
+    if config['maxresults'] == 0:
+        config['maxresults'] = nres
+    if config['perpage'] == 0:
+        config['perpage'] = nres
     return { 'res': res, 'time': timer, 'query': query, 'dirs':
             get_dirs(config['dirs'], config['dirdepth']),'qs': qs, 'sorts': SORTS, 'config': config,
-            'query_string': bottle.request.query_string }
+            'query_string': bottle.request.query_string, 'nres': nres  }
 #}}}
 #{{{ json
 @bottle.route('/json')
@@ -217,7 +232,7 @@ def get_json():
     qs = query_to_recoll_string(query)
     bottle.response.headers['Content-Type'] = 'application/json'
     bottle.response.headers['Content-Disposition'] = 'attachment; filename=recoll-%s.json' % normalise_filename(qs)
-    res, timer = recoll_search(qs, query['sort'], query['ascending'])
+    res, nres, timer = recoll_search(query)
 
     return json.dumps({ 'query': query, 'results': res })
 #}}}
@@ -228,7 +243,7 @@ def get_csv():
     qs = query_to_recoll_string(query)
     bottle.response.headers['Content-Type'] = 'text/csv'
     bottle.response.headers['Content-Disposition'] = 'attachment; filename=recoll-%s.csv' % normalise_filename(qs)
-    res, timer = recoll_search(qs, query['sort'], query['ascending'])
+    res, nres, timer = recoll_search(query)
     si = StringIO.StringIO()
     cw = csv.writer(si)
     cw.writerow(FIELDS)

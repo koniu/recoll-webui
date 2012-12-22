@@ -5,17 +5,34 @@ body {	margin: 0 }
 	border-bottom: 1px solid #666;
 }
 
-#status { padding: 1.5em; }
-#found { float: left; }
-#downloads { position: fixed; bottom: 2px; right: 7px; margin-left: 1em; }
+#status {
+	margin: 1em;
+	background: #fcfcfc;
+	border: 1px solid #efefef;
+	color: #666;
+	font-size: 9pt;
+	padding: 0.5em;
+}
+#found { float: left }
+#downloads { float: right; }
 #downloads a {
-	border: 1px solid #aaa;
-	padding: 5px;
-	background: #f8f8f8;
+	padding: 5 3 5 3;
 	color: #999;
-	font-size: 7pt;
+	text-decoration: underline;
 }
 #downloads a:hover { background: #ccc; color: white  }
+
+#pages { clear: both; float: none; width: 100%; text-align: center; }
+.page {
+	font-size: 8pt;
+	color: gray;
+	padding-left: 6px; padding-right: 6px;
+	padding-top: 2px; padding-bottom: 2px;
+	border: 1px solid #ddd;
+	background: #f5f5f5;
+
+}
+.page:hover, .current { background: #ccc; color: white; }
 
 #results { padding: 1em; }
 .search-result {

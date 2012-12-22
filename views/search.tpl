@@ -5,7 +5,7 @@
 <tr>
     <td width="50%">
         <b>Query</b>
-        <input tabindex="0" type="search" name="query" value="{{query['keywords']}}" autofocus><br><br>
+        <input tabindex="0" type="search" name="query" value="{{query['query']}}" autofocus><br><br>
         <input type="submit" value="Search">&nbsp;
         <a href=".." tabindex="-1"><input type="button" value="Reset"></a>&nbsp;
         <a href="settings" tabindex="-1"><input type="button" value="Settings"></a>
@@ -48,8 +48,8 @@
         </select>
     </td>
 </tr>
-
 </table>
+<input type="hidden" name="page" value="1" />
 </form>
 </div>
 <!-- vim: fdm=marker:tw=80:ts=4:sw=4:sts=4:et:ai

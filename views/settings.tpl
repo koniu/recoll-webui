@@ -6,6 +6,8 @@
 	<b>Max results</b> <small class="gray">(maximum number of results to show)</small>
 	<input name="maxresults" value={{maxresults}}>
 	<hr>
+	<b>Results per page</b> <small class="gray">(0 for no pagination)</small>
+	<input name="perpage" value={{perpage}}>
 	<b>Context words</b> <small class="gray">(number of words shown in search results)</small>
 	<input name="context" value={{context}}>
 	<b>Context characters</b> <small class="gray">(max characters in a snippet)</small>

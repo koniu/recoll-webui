@@ -1,10 +1,10 @@
 %import shlex, unicodedata
 %def strip_accents(s): return ''.join((c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn'))
-%include header title=": " + query['keywords']+" ("+str(len(res))+")"
+%include header title=": " + query['query']+" ("+str(nres)+")"
 %include search query=query, dirs=dirs, sorts=sorts
 <div id="status">
     <div id="found">
-        Found <b>{{len(res)}}</b> matching: <b><i>{{qs}}</i></b>
+        Found <b>{{nres}}</b> matching: <b><i>{{qs}}</i></b>
         <small class="gray">({{time.seconds}}.{{time.microseconds/10000}}s)</small>
     </div>
     %if len(res) > 0:
@@ -13,12 +13,15 @@
             <a href="../csv?{{query_string}}">CSV</a>
         </div>
     %end
+    <br style="clear: both">
 </div>
+%include pages query=query, config=config, nres=nres
 <div id="results">
 %for i in range(0, len(res)):
 %d = res[i]
 <div class="search-result">
-    <div class="search-result-number"><a href="#r{{d['sha']}}">#{{i+1}}</a></div>
+    %number = (query['page'] - 1)*config['perpage'] + i + 1
+    <div class="search-result-number"><a href="#r{{d['sha']}}">#{{number}}</a></div>
     %url = d['url'].replace('file://', '')
     %for dr, prefix in config['mounts'].items():
         %url = url.replace(dr, prefix)
@@ -38,7 +41,7 @@
         <a href="{{url.replace('/'+d['filename'],'')}}">{{urllabel}}</a>
     </div>
     <div class="search-result-date">{{d['time']}}</div>
-    %for q in shlex.split(query['keywords'].replace("'","\\'")):
+    %for q in shlex.split(query['query'].replace("'","\\'")):
         %if not q == "OR":
             % w = strip_accents(q.decode('utf-8').lower()).encode('utf-8')
             % d['snippet'] = d['snippet'].replace(w,'<span class="search-result-highlight">'+w+'</span>')
@@ -48,6 +51,7 @@
 </div>
 %end
 </div>
+%include pages query=query, config=config, nres=nres
 %include footer
 <!-- vim: fdm=marker:tw=80:ts=4:sw=4:sts=4:et:ai
 -->
