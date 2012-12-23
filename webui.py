@@ -149,7 +149,7 @@ def get_query():
         'dir': select([bottle.request.query.get('dir'), '', '<all>'], [None, '']),
         'sort': select([bottle.request.query.get('sort'), SORTS[0][0]]),
         'ascending': int(select([bottle.request.query.get('ascending'), 0])),
-        'page': int(select([bottle.request.query.get('page'), 1])),
+        'page': int(select([bottle.request.query.get('page'), 0])),
     }
     return query
 #}}}
@@ -180,8 +180,9 @@ def recoll_search(q):
         config['maxresults'] = nres
     if nres > config['maxresults']:
         nres = config['maxresults']
-    if config['perpage'] == 0:
+    if config['perpage'] == 0 or q['page'] == 0:
         config['perpage'] = nres
+        q['page'] = 1
     offset = (q['page'] - 1) * config['perpage']
     query.next = offset
     while query.next >= 0 and query.next < offset + config['perpage'] and query.next < nres:
@@ -232,6 +233,7 @@ def results():
 @bottle.route('/json')
 def get_json():
     query = get_query()
+    query['page'] = 0
     qs = query_to_recoll_string(query)
     bottle.response.headers['Content-Type'] = 'application/json'
     bottle.response.headers['Content-Disposition'] = 'attachment; filename=recoll-%s.json' % normalise_filename(qs)
@@ -243,6 +245,7 @@ def get_json():
 @bottle.route('/csv')
 def get_csv():
     query = get_query()
+    query['page'] = 0
     qs = query_to_recoll_string(query)
     bottle.response.headers['Content-Type'] = 'text/csv'
     bottle.response.headers['Content-Disposition'] = 'attachment; filename=recoll-%s.csv' % normalise_filename(qs)
