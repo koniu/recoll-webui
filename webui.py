@@ -98,7 +98,7 @@ def recoll_get_config():
             confdir = d
             break
     # read recoll.conf
-    rc_ini_str = '[main]\n' + open(confdir + '/recoll.conf', 'r').read()
+    rc_ini_str = '[main]\n' + open(confdir + '/recoll.conf', 'r').read().replace('\\\n', '')
     rc_ini_fp = StringIO.StringIO(rc_ini_str)
     rc_ini = ConfigParser.RawConfigParser()
     rc_ini.readfp(rc_ini_fp)
