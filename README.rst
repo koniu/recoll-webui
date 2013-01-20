@@ -5,6 +5,8 @@ Recoll WebUI
 **Recoll WebUI** is a Python-based web interface for **Recoll** text search
 tool for Unix/Linux.
 
+.. image:: http://ompldr.org/vaDVjbA
+
 * WebUI homepage: https://github.com/koniu/recoll-webui
 * Recoll homepage: http://www.lesbonscomptes.com/recoll
 
