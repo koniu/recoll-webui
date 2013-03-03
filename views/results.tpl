@@ -7,8 +7,8 @@
     </div>
     %if len(res) > 0:
         <div id="downloads">
-            <a href="../json?{{query_string}}">JSON</a>
-            <a href="../csv?{{query_string}}">CSV</a>
+            <a href="./json?{{query_string}}">JSON</a>
+            <a href="./csv?{{query_string}}">CSV</a>
         </div>
     %end
     <br style="clear: both">

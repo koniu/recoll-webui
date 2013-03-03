@@ -1,7 +1,7 @@
 %q = dict(query)
 %def page_href(page):
 	%q['page'] = page
-	%return '../results?%s' % urllib.urlencode(q)
+	%return './results?%s' % urllib.urlencode(q)
 %end
 %if nres > 0:
 	%import math, urllib

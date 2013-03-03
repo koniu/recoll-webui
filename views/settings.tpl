@@ -23,7 +23,7 @@
 	%end
 	<br><br><hr>
 	<input type="submit" value="Save">
-	<a href=".."><input type="button" value="Cancel"></a>
+	<a href="./"><input type="button" value="Cancel"></a>
 </form>
 </div>
 %include footer

@@ -274,7 +274,7 @@ def set():
     for d in config['dirs']:
         cookie_name = 'mount_%s' % urllib.quote(d, '')
         bottle.response.set_cookie(cookie_name, str(bottle.request.query.get('mount_%s' % d)), max_age=3153600000)
-    bottle.redirect('..')
+    bottle.redirect('./')
 #}}}
 #}}}
 # vim: fdm=marker:tw=80:ts=4:sw=4:sts=4:et
