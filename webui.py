@@ -3,10 +3,15 @@
 import os
 import bottle
 import time
+import sys
+
 try:
     from recoll import recoll
+    from recoll import rclextract
+    hasrclextract = True
 except:
     import recoll
+    hasrclextract = False
     
 import datetime
 import glob
@@ -166,20 +171,28 @@ def query_to_recoll_string(q):
         qs += " dir:\"%s\" " % q['dir']
     return qs
 #}}}
-#{{{ recoll_search
-def recoll_search(q):
+#{{{ recoll_initsearch
+def recoll_initsearch(q):
     config = get_config()
-    tstart = datetime.datetime.now()
-    results = []
     db = recoll.connect(config['confdir'])
     db.setAbstractParams(config['maxchars'], config['context'])
     query = db.query()
     query.sortby(q['sort'], q['ascending'])
     try:
         qs = query_to_recoll_string(q)
-        nres = query.execute(qs, config['stem'])
+        query.execute(qs, config['stem'])
     except:
-        nres = 0
+        pass
+    return query
+#}}}
+#{{{ recoll_search
+def recoll_search(q):
+    config = get_config()
+    tstart = datetime.datetime.now()
+    results = []
+    query = recoll_initsearch(q)
+    nres = query.rowcount
+
     if config['maxresults'] == 0:
         config['maxresults'] = nres
     if nres > config['maxresults']:
@@ -189,10 +202,12 @@ def recoll_search(q):
         q['page'] = 1
     offset = (q['page'] - 1) * config['perpage']
 
-    if type(query.next) == int:
-        query.next = offset
-    else:
-        query.scroll(offset)
+    if query.rowcount > 0:
+        if type(query.next) == int:
+            query.next = offset
+        else:
+            query.scroll(offset, mode='absolute')
+
     for i in range(config['perpage']):
         try:
             doc = query.fetchone()
@@ -208,7 +223,7 @@ def recoll_search(q):
         d['label'] = select([d['title'], d['filename'], '?'], [None, ''])
         d['sha'] = hashlib.sha1(d['url']+d['ipath']).hexdigest()
         d['time'] = timestr(d['mtime'], config['timefmt'])
-        d['snippet'] = db.makeDocAbstract(doc, query).encode('utf-8')
+        d['snippet'] = query.makedocabstract(doc).encode('utf-8')
         results.append(d)
     tend = datetime.datetime.now()
     return results, nres, tend - tstart
@@ -241,8 +256,57 @@ def results():
     if config['perpage'] == 0:
         config['perpage'] = nres
     return { 'res': res, 'time': timer, 'query': query, 'dirs':
-            get_dirs(config['dirs'], config['dirdepth']),'qs': qs, 'sorts': SORTS, 'config': config,
-            'query_string': bottle.request.query_string, 'nres': nres  }
+            get_dirs(config['dirs'], config['dirdepth']),
+             'qs': qs, 'sorts': SORTS, 'config': config,
+            'query_string': bottle.request.query_string, 'nres': nres,
+             'hasrclextract': hasrclextract }
+#}}}
+#{{{ preview
+@bottle.route('/preview/<resnum:int>')
+def preview(resnum):
+    if not hasrclextract:
+        return 'Sorry, needs recoll version 1.19 or later'
+    query = get_query()
+    qs = query_to_recoll_string(query)
+    rclq = recoll_initsearch(query)
+    if resnum > rclq.rowcount - 1:
+        return 'Bad result index %d' % resnum
+    rclq.scroll(resnum)
+    doc = rclq.fetchone()
+    xt = rclextract.Extractor(doc)
+    tdoc = xt.textextract(doc.ipath)
+    if tdoc.mimetype == 'text/html':
+        bottle.response.content_type = 'text/html; charset=utf-8'
+    else:
+        bottle.response.content_type = 'text/plain; charset=utf-8'
+    return tdoc.text
+#}}}
+#{{{ edit
+@bottle.route('/edit/<resnum:int>')
+def edit(resnum):
+    if not hasrclextract:
+        return 'Sorry, needs recoll version 1.19 or later'
+    query = get_query()
+    qs = query_to_recoll_string(query)
+    rclq = recoll_initsearch(query)
+    if resnum > rclq.rowcount - 1:
+        return 'Bad result index %d' % resnum
+    rclq.scroll(resnum)
+    doc = rclq.fetchone()
+    bottle.response.content_type = doc.mimetype
+    # If ipath is null, we can just return the file
+    pathismine = False
+    if doc.ipath == '':
+        path = doc.url.replace('file://','')
+    else:
+        xt = rclextract.Extractor(doc)
+        path = xt.idoctofile(doc.ipath, doc.mimetype)
+        pathismine = True
+    print >> sys.stderr, "Sending %s with mimetype %s" % (path, doc.mimetype)
+    f = open(path, 'r')
+    if pathismine:
+        os.unlink(path)
+    return f
 #}}}
 #{{{ json
 @bottle.route('/json')

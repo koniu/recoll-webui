@@ -11,7 +11,7 @@
     %if len(d['ipath']) > 0:
         <div class="search-result-ipath">[{{d['ipath']}}]</div>
     %end
-    %if  d.has_key('author') and len(d['author']) > 0:
+    %if d.has_key('author') and len(d['author']) > 0:
         <div class="search-result-author">{{d['author']}}</div>
     %end
     <div class="search-result-url">
@@ -21,6 +21,12 @@
         %end
         <a href="{{url.replace('/'+d['filename'],'')}}">{{urllabel}}</a>
     </div>
+%if hasrclextract:
+    <div class="search-result-links">
+    <a href="/preview/{{number-1}}?{{query_string}}" target="_blank">Preview</a>
+    <a href="/edit/{{number-1}}?{{query_string}}">Open</a>
+    </div>
+%end
     <div class="search-result-date">{{d['time']}}</div>
     %for q in shlex.split(query['query'].replace("'","\\'")):
         %if not q == "OR":
