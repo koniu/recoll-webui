@@ -11,7 +11,7 @@
     %if len(d['ipath']) > 0:
         <div class="search-result-ipath">[{{d['ipath']}}]</div>
     %end
-    %if  len(d['author']) > 0:
+    %if  d.has_key('author') and len(d['author']) > 0:
         <div class="search-result-author">{{d['author']}}</div>
     %end
     <div class="search-result-url">

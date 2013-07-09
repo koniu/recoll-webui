@@ -3,7 +3,11 @@
 import os
 import bottle
 import time
-import recoll
+try:
+    from recoll import recoll
+except:
+    import recoll
+    
 import datetime
 import glob
 import hashlib
@@ -184,12 +188,23 @@ def recoll_search(q):
         config['perpage'] = nres
         q['page'] = 1
     offset = (q['page'] - 1) * config['perpage']
-    query.next = offset
-    while query.next >= 0 and query.next < offset + config['perpage'] and query.next < nres:
-        doc = query.fetchone()
+
+    if type(query.next) == int:
+        query.next = offset
+    else:
+        query.scroll(offset)
+    for i in range(config['perpage']):
+        try:
+            doc = query.fetchone()
+        except:
+            break
         d = {}
         for f in FIELDS:
-            d[f] = getattr(doc, f).encode('utf-8')
+            v = getattr(doc, f)
+            if v is not None:
+                d[f] = v.encode('utf-8')
+            else:
+                d[f] = ''
         d['label'] = select([d['title'], d['filename'], '?'], [None, ''])
         d['sha'] = hashlib.sha1(d['url']+d['ipath']).hexdigest()
         d['time'] = timestr(d['mtime'], config['timefmt'])
