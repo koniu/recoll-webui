@@ -294,6 +294,8 @@ def edit(resnum):
     rclq.scroll(resnum)
     doc = rclq.fetchone()
     bottle.response.content_type = doc.mimetype
+    bottle.response.headers['Content-Disposition'] = \
+        'attachment; filename=%s' % doc.filename
     # If ipath is null, we can just return the file
     pathismine = False
     if doc.ipath == '':

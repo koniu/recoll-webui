@@ -24,7 +24,7 @@
 %if hasrclextract:
     <div class="search-result-links">
     <a href="/preview/{{number-1}}?{{query_string}}" target="_blank">Preview</a>
-    <a href="/edit/{{number-1}}?{{query_string}}">Open</a>
+    <a href="/edit/{{number-1}}?{{query_string}}">Download/Open</a>
     </div>
 %end
     <div class="search-result-date">{{d['time']}}</div>
