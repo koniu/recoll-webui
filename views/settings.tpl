@@ -21,6 +21,10 @@
 	%for d in dirs:
 		<small>{{d}}</small><input name="mount_{{d}}" value={{mounts[d]}}>
 	%end
+	<hr>
+	<b>Add to browser</b>
+	<br>
+	<a href="#" onClick="addOpenSearch();return false">Register recoll into browser search engines</a>
 	<br><br><hr>
 	<input type="submit" value="Save">
 	<a href="./"><input type="button" value="Cancel"></a>

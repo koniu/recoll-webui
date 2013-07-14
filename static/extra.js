@@ -8,3 +8,15 @@ $(document).ready(function(){
 	$('input[name="after"]').jdPicker({});
 	$('input[name="before"]').jdPicker();
 })
+
+function addOpenSearch()
+{
+  if (window.external && ("AddSearchProvider" in window.external)) {
+      /* Build the url of the form http://host/osd.xml */
+      var url = document.URL;
+      var prefix = RegExp("^https\?://[^/]*/").exec(url);
+      window.external.AddSearchProvider(prefix + "osd.xml");
+  } else {
+    alert("Your browser does not support OpenSearch search plugins.");
+  }
+}
