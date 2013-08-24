@@ -42,10 +42,10 @@ DEFAULTS = {
 
 # sort fields/labels
 SORTS = [
+    ("relevancyrating", "Relevancy"),
     ("mtime", "Date",),
     ("url", "Path"),
     ("filename", "Filename"),
-    ("relevancyrating", "Relevancy"),
     ("fbytes", "Size"),
     ("author", "Author"),
 ]
