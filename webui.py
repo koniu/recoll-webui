@@ -42,10 +42,10 @@ DEFAULTS = {
 
 # sort fields/labels
 SORTS = [
+    ("relevancyrating", "Relevancy"),
     ("mtime", "Date",),
     ("url", "Path"),
     ("filename", "Filename"),
-    ("relevancyrating", "Relevancy"),
     ("fbytes", "Size"),
     ("author", "Author"),
 ]
@@ -357,5 +357,13 @@ def set():
         bottle.response.set_cookie(cookie_name, str(bottle.request.query.get('mount_%s' % d)), max_age=3153600000)
     bottle.redirect('./')
 #}}}
+#{{{ osd
+@bottle.route('/osd.xml')
+@bottle.view('osd')
+def main():
+    #config = get_config()
+    url = bottle.request.urlparts
+    url = '%s://%s' % (url.scheme, url.netloc)
+    return {'url': url}
 #}}}
 # vim: fdm=marker:tw=80:ts=4:sw=4:sts=4:et
