@@ -294,16 +294,17 @@ def edit(resnum):
     rclq.scroll(resnum)
     doc = rclq.fetchone()
     bottle.response.content_type = doc.mimetype
-    bottle.response.headers['Content-Disposition'] = \
-        'attachment; filename=%s' % doc.filename
-    # If ipath is null, we can just return the file
     pathismine = False
     if doc.ipath == '':
+        # If ipath is null, we can just return the file
         path = doc.url.replace('file://','')
     else:
+        # Else this is a subdocument, extract to temporary file
         xt = rclextract.Extractor(doc)
         path = xt.idoctofile(doc.ipath, doc.mimetype)
         pathismine = True
+    bottle.response.headers['Content-Disposition'] = \
+        'attachment; filename=%s' % os.path.basename(path)
     print >> sys.stderr, "Sending %s with mimetype %s" % (path, doc.mimetype)
     f = open(path, 'r')
     if pathismine:
