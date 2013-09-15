@@ -304,7 +304,7 @@ def edit(resnum):
         path = xt.idoctofile(doc.ipath, doc.mimetype)
         pathismine = True
     bottle.response.headers['Content-Disposition'] = \
-        'attachment; filename=%s' % os.path.basename(path).encode('utf-8')
+        'attachment; filename="%s"' % os.path.basename(path).encode('utf-8')
     print >> sys.stderr, "Sending %s with mimetype %s" % (path, doc.mimetype)
     f = open(path, 'r')
     if pathismine:
