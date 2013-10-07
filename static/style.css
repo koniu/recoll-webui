@@ -75,7 +75,8 @@ body {	margin: 0; font-family: sans-serif }
 }
 .search-result-url { clear:left; }
 .search-result-url a { color: #5a5; font-size: 8pt; float: left; margin-right: 1em;}
-.search-result-links {color: #aaf; font-size: 8pt; float: left; margin-right: 1em}
+.search-result-links { color: #aaf; font-size: 8pt; float: left; margin-right: 1em; visibility: hidden }
+.search-result:hover > .search-result-links { visibility: visible }
 .search-result-date { color: #777; font-size: 8pt; float: right; margin-bottom: 7px; }
 .search-result-size { color: #777; font-size: 8pt; float: right; display: none; }
 .search-result-highlight { color: #7E1212; font-weight: bold; }
