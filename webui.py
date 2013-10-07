@@ -12,7 +12,7 @@ try:
 except:
     import recoll
     hasrclextract = False
-    
+
 import datetime
 import glob
 import hashlib
