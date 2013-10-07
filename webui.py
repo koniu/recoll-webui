@@ -281,8 +281,8 @@ def preview(resnum):
         bottle.response.content_type = 'text/plain; charset=utf-8'
     return tdoc.text
 #}}}
-#{{{ edit
-@bottle.route('/edit/<resnum:int>')
+#{{{ download
+@bottle.route('/download/<resnum:int>')
 def edit(resnum):
     if not hasrclextract:
         return 'Sorry, needs recoll version 1.19 or later'
