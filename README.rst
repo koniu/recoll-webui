@@ -16,8 +16,17 @@ Requirements
 All you need to use the WebUI is:
 
 * Python 2.x
-* Recoll 1.18.1+
+* Recoll 1.17+
 * web browser
+
+Download
+========
+If your Recoll version is 1.18.2 or newer:
+        https://github.com/koniu/recoll-webui/archive/master.zip
+If your Recoll version version is 1.17-1.18.1:
+        https://github.com/koniu/recoll-webui/archive/v1.18.1.zip
+You can fetch the full git repository like this:
+        ``git clone https://github.com/koniu/recoll-webui.git``
 
 Usage
 =====
@@ -27,14 +36,14 @@ server via WSGI/CGI. Regardless of the mode of operation you need Recoll
 to be configured on your system as the WebUI only provides a front-end for
 searching and does not handle index configuration etc.
 
-Standalone
-----------
+Run standalone
+--------------
 Run ``webui-standalone.py`` and connect to ``http://localhost:8080``.
 
 To change the default port, edit ``webui-standalone.py``.
 
-WSGI/CGI
---------
+Run as WSGI/CGI
+---------------
 TODO
 
 
