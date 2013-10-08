@@ -1,4 +1,4 @@
-#!env python
+#!/usr/bin/env python
 #{{{ imports
 import os
 import bottle
@@ -24,8 +24,6 @@ import string
 import shlex
 import urllib
 from pprint import pprint
-# change to recoll-webui directory to access templates
-os.chdir(os.path.dirname(__file__))
 #}}}
 #{{{ settings
 # recoll settings

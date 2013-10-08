@@ -1,8 +1,7 @@
-#!env python
+#!/usr/bin/env python
 import os
-import bottle
-import webui
-
+# change to webui's directory and set up
 os.chdir(os.path.dirname(__file__))
-application = bottle.default_app()
+import webui
+application = webui.bottle.default_app()
 # vim: foldmethod=marker:filetype=python:textwidth=80:ts=4:et
