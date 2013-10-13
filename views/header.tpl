@@ -10,4 +10,3 @@
     <link rel="icon" type="image/png" href="static/recoll.png">
 </head>
 <body>
-<div id="fade"></div>

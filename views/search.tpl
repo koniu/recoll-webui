@@ -1,4 +1,5 @@
 %import re
+<div id="fade"></div>
 <div id="searchbox">
 <form action="results" method="get">
 <table id="form">
