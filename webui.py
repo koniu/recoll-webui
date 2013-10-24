@@ -4,15 +4,6 @@ import os
 import bottle
 import time
 import sys
-
-try:
-    from recoll import recoll
-    from recoll import rclextract
-    hasrclextract = True
-except:
-    import recoll
-    hasrclextract = False
-
 import datetime
 import glob
 import hashlib
@@ -23,12 +14,21 @@ import ConfigParser
 import string
 import shlex
 import urllib
-from pprint import pprint
+# import recoll and rclextract
+try:
+    from recoll import recoll
+    from recoll import rclextract
+    hasrclextract = True
+except:
+    import recoll
+    hasrclextract = False
+# import rclconfig system-wide or local copy
+try:
+    from recoll import rclconfig
+except:
+    import rclconfig
 #}}}
 #{{{ settings
-# recoll settings
-RECOLL_CONFS = [ '$RECOLL_CONFDIR', '~/.recoll', '/usr/share/recoll/examples' ]
-
 # settings defaults
 DEFAULTS = {
     'context': 30,
@@ -97,34 +97,13 @@ def normalise_filename(fn):
             out += "_"
     return out
 #}}}
-#{{{ recoll_get_config
-def recoll_get_config():
-    # find recoll.conf
-    for d in RECOLL_CONFS:
-        d = os.path.expanduser(d)
-        d = os.path.expandvars(d)
-        if os.path.isdir(d):
-            confdir = d
-            break
-    # read recoll.conf
-    rc_ini_str = '[main]\n' + open(confdir + '/recoll.conf', 'r').read().replace('\\\n', '')
-    rc_ini_fp = StringIO.StringIO(rc_ini_str)
-    rc_ini = ConfigParser.RawConfigParser()
-    rc_ini.readfp(rc_ini_fp)
-    # parse recoll.conf
-    rc = {}
-    for s in rc_ini.sections():
-        rc[s] = {}
-        for k, v in rc_ini.items(s):
-            rc[s][k] = v
-    return confdir, rc
-#}}}
 #{{{ get_config
 def get_config():
     config = {}
     # get useful things from recoll.conf
-    config['confdir'], rc = recoll_get_config()
-    config['dirs'] = shlex.split(rc['main']['topdirs'])
+    rclconf = rclconfig.RclConfig()
+    config['confdir'] = rclconf.getConfDir()
+    config['dirs'] = shlex.split(rclconf.getConfParam('topdirs'))
     # get config from cookies or defaults
     for k, v in DEFAULTS.items():
         value = select([bottle.request.get_cookie(k), v])
