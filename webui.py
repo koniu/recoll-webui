@@ -104,6 +104,7 @@ def get_config():
     rclconf = rclconfig.RclConfig()
     config['confdir'] = rclconf.getConfDir()
     config['dirs'] = shlex.split(rclconf.getConfParam('topdirs'))
+    config['stemlang'] = rclconf.getConfParam('indexstemminglanguages')
     # get config from cookies or defaults
     for k, v in DEFAULTS.items():
         value = select([bottle.request.get_cookie(k), v])
@@ -159,7 +160,7 @@ def recoll_initsearch(q):
     query.sortby(q['sort'], q['ascending'])
     try:
         qs = query_to_recoll_string(q)
-        query.execute(qs, config['stem'])
+        query.execute(qs, config['stem'], config['stemlang'])
     except:
         pass
     return query
