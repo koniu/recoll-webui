@@ -165,6 +165,13 @@ def recoll_initsearch(q):
         pass
     return query
 #}}}
+#{{{ HlMeths
+class HlMeths:
+    def startMatch(self, idx):
+        return '<span class="search-result-highlight">'
+    def endMatch(self):
+        return '</span>'
+#}}}
 #{{{ recoll_search
 def recoll_search(q):
     config = get_config()
@@ -188,6 +195,7 @@ def recoll_search(q):
         else:
             query.scroll(offset, mode='absolute')
 
+    highlighter = HlMeths()
     for i in range(config['perpage']):
         try:
             doc = query.fetchone()
@@ -203,7 +211,7 @@ def recoll_search(q):
         d['label'] = select([d['title'], d['filename'], '?'], [None, ''])
         d['sha'] = hashlib.sha1(d['url']+d['ipath']).hexdigest()
         d['time'] = timestr(d['mtime'], config['timefmt'])
-        d['snippet'] = query.makedocabstract(doc).encode('utf-8')
+        d['snippet'] = query.makedocabstract(doc, highlighter).encode('utf-8')
         results.append(d)
     tend = datetime.datetime.now()
     return results, nres, tend - tstart
