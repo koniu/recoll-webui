@@ -40,7 +40,11 @@ Run standalone
 --------------
 Run ``webui-standalone.py`` and connect to ``http://localhost:8080``.
 
-To change the default port, edit ``webui-standalone.py``.
+There's some optional command-line arguments available:::
+
+    -h, --help            show this help message and exit
+    -a ADDR, --addr ADDR  address to bind to [127.0.0.1]
+    -p PORT, --port PORT  port to listen on [8080]
 
 Run as WSGI/CGI
 ---------------
