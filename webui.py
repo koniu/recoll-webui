@@ -125,7 +125,7 @@ def get_dirs(tops, depth):
             dirs = dirs + glob.glob(top + '/*' * d)
         dirs = filter(lambda f: os.path.isdir(f), dirs)
         top_path = top.rsplit('/', 1)[0]
-        dirs = [w.replace(top_path+'/', '') for w in dirs]
+        dirs = [w.replace(top_path+'/', '', 1) for w in dirs]
         v = v + dirs
     return ['<all>'] + v
 #}}}
