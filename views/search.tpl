@@ -15,12 +15,13 @@
         <b>Folder</b><br>
         <select id="folders" name="dir">
         %for d in sorted(dirs, key=str.lower):
-            %style = "margin-left: %dem" % (2*d.count('/'))
+            %space = "&nbsp;" * (4 * d.count('/'))
             %if d in query['dir']:
-                <option style="{{style}}" selected value="{{d}}">{{re.sub('.+/','', d)}}</option>
+            %selected = "selected"
             %else:
-                <option style="{{style}}" value="{{d}}">{{re.sub('.+/','', d)}}</option>
+            %selected = ""
             %end
+            <option {{selected}} value="{{d}}">{{!space}}{{re.sub('.+/','', d)}}</option>
         %end
         </select><br>
         <b>Dates</b> <small class="gray">YYYY[-MM][-DD]</small><br>
