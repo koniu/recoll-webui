@@ -40,7 +40,7 @@ Run standalone
 --------------
 Run ``webui-standalone.py`` and connect to ``http://localhost:8080``.
 
-There's some optional command-line arguments available:::
+There's some optional command-line arguments available::
 
     -h, --help            show this help message and exit
     -a ADDR, --addr ADDR  address to bind to [127.0.0.1]
@@ -49,7 +49,7 @@ There's some optional command-line arguments available:::
 Run as WSGI/CGI
 ---------------
 
-Example WSGI/Apache2 config
+Example WSGI/Apache2 config::
 
         WSGIDaemonProcess recoll user=recoll group=recoll threads=5 display-name=%{GROUP} python-path=/var/recoll-webui-master
         WSGIScriptAlias /recoll /var/recoll-webui-master/webui-wsgi.py
@@ -64,7 +64,7 @@ Remarks:
 * Run the WSGIDeamonProcess run under the username (user=xyz) of the user that you want to have exposed via web
 
 
-Example Upstart-Script for Ubuntu to run the indexer as daemon
+Example Upstart-Script for Ubuntu to run the indexer as daemon::
 
 
         description "recoll indexer"
@@ -86,7 +86,7 @@ Remarks:
 * You need to configure the user for which the indexer should run ("sudo -u [myuser])
 
 
-Example Crontab entry to have the indexer at least once a day
+Example Crontab entry to have the indexer at least once a day::
 
         22 5    * * *   recoll  recollindex
 
