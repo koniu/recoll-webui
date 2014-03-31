@@ -48,7 +48,48 @@ There's some optional command-line arguments available:::
 
 Run as WSGI/CGI
 ---------------
-TODO
+
+Example WSGI/Apache2 config
+
+        WSGIDaemonProcess recoll user=recoll group=recoll threads=5 display-name=%{GROUP} python-path=/var/recoll-webui-master
+        WSGIScriptAlias /recoll /var/recoll-webui-master/webui-wsgi.py
+        <Directory /var/recoll-webui-master>
+                WSGIProcessGroup recoll
+                Order allow,deny
+                allow from all
+        </Directory>
+
+Remarks:
+* Without "python-path=" you might see errors that it can't import webui 
+* Run the WSGIDeamonProcess run under the username (user=xyz) of the user that you want to have exposed via web
+
+
+Example Upstart-Script for Ubuntu to run the indexer as daemon
+
+
+        description "recoll indexer"
+
+        start on runlevel [2345]
+        stop on runlevel [!2345]
+        
+        respawn
+        
+        pre-start script
+                exec sudo -u recoll sh -c "/usr/local/share/recoll/examples/rclmon.sh start"
+        end script
+        
+        pre-stop script
+                exec sudo -u recoll sh -c "/usr/local/share/recoll/examples/rclmon.sh stop"
+        end script
+
+Remarks:
+* You need to configure the user for which the indexer should run ("sudo -u [myuser])
+
+
+Example Crontab entry to have the indexer at least once a day
+
+        22 5    * * *   recoll  recollindex
+
 
 
 Issues
