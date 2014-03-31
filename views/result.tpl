@@ -6,7 +6,9 @@
     %for dr, prefix in config['mounts'].items():
         %url = url.replace(dr, prefix)
     %end
-    <div class="search-result-title" id="r{{d['sha']}}" title="{{d['abstract']}}"><a href="{{url}}">{{d['label']}}</a></div>
+    <div class="search-result-title" id="r{{d['sha']}}" title="{{d['abstract']}}">
+    <a href="download/{{number-1}}?{{query_string}}">{{d['label']}}</a>
+    </div>
     %if len(d['ipath']) > 0:
         <div class="search-result-ipath">[{{d['ipath']}}]</div>
     %end
@@ -23,7 +25,6 @@
 %if hasrclextract:
     <div class="search-result-links">
     <a href="preview/{{number-1}}?{{query_string}}" target="_blank">Preview</a>
-    <a href="download/{{number-1}}?{{query_string}}">Download</a>
     </div>
 %end
     <div class="search-result-date">{{d['time']}}</div>
