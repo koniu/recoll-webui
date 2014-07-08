@@ -84,6 +84,8 @@ def select(ls, invalid=[None]):
             return value
 
 def timestr(secs, fmt):
+    if secs == '' or secs is None:
+        secs = '0'
     t = time.gmtime(int(secs))
     return time.strftime(fmt, t)
 
