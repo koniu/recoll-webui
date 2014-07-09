@@ -1,4 +1,4 @@
-%import shlex, unicodedata
+%import shlex, unicodedata, os
 <div class="search-result">
     %number = (query['page'] - 1)*config['perpage'] + i + 1
     <div class="search-result-number"><a href="#r{{d['sha']}}">#{{number}}</a></div>
@@ -14,11 +14,11 @@
         <div class="search-result-author">{{d['author']}}</div>
     %end
     <div class="search-result-url">
-        %urllabel = d['url'].replace('/'+d['filename'],'').replace('file://','')
+        %urllabel = os.path.dirname(d['url'].replace('file://', ''))
         %for r in config['dirs']:
             %urllabel = urllabel.replace(r.rsplit('/',1)[0] + '/' , '')
         %end
-        <a href="{{url.replace('/'+d['filename'],'')}}">{{urllabel}}</a>
+        <a href="{{os.path.dirname(url)}}">{{urllabel}}</a>
     </div>
 %if hasrclextract:
     <div class="search-result-links">
