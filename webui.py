@@ -295,7 +295,7 @@ def edit(resnum):
         pathismine = True
     bottle.response.headers['Content-Disposition'] = \
         'attachment; filename="%s"' % os.path.basename(path).encode('utf-8')
-    print >> sys.stderr, "Sending %s with mimetype %s" % (path, doc.mimetype)
+    path = path.encode('utf-8')
     f = open(path, 'r')
     if pathismine:
         os.unlink(path)
