@@ -150,7 +150,7 @@ def query_to_recoll_string(q):
     if len(q['after']) > 0 or len(q['before']) > 0:
         qs += " date:%s/%s" % (q['after'], q['before'])
     if q['dir'] != '<all>':
-        qs += " dir:\"%s\" " % q['dir']
+        qs += " dir:\"%s\" " % q['dir'].decode('utf-8')
     return qs
 #}}}
 #{{{ recoll_initsearch
