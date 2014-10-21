@@ -342,10 +342,10 @@ def settings():
 def set():
     config = get_config()
     for k, v in DEFAULTS.items():
-        bottle.response.set_cookie(k, str(bottle.request.query.get(k)), max_age=3153600000)
+        bottle.response.set_cookie(k, str(bottle.request.query.get(k)), max_age=3153600000, expires=3153600000)
     for d in config['dirs']:
         cookie_name = 'mount_%s' % urllib.quote(d, '')
-        bottle.response.set_cookie(cookie_name, str(bottle.request.query.get('mount_%s' % d)), max_age=3153600000)
+        bottle.response.set_cookie(cookie_name, str(bottle.request.query.get('mount_%s' % d)), max_age=3153600000, expires=3153600000)
     bottle.redirect('./')
 #}}}
 #{{{ osd
