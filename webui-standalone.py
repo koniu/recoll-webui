@@ -10,7 +10,8 @@ parser.add_argument('-p', '--port', default='8080', type=int, help='port to list
 args = parser.parse_args()
 
 # change to webui's directory and import
-os.chdir(os.path.dirname(__file__))
+if os.path.dirname(__file__) != "":
+    os.chdir(os.path.dirname(__file__))
 
 # set up webui and run in own http server
 webui.bottle.debug(True)
