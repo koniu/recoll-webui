@@ -296,6 +296,7 @@ def edit(resnum):
     bottle.response.headers['Content-Disposition'] = \
         'attachment; filename="%s"' % os.path.basename(path).encode('utf-8')
     path = path.encode('utf-8')
+    bottle.response.headers['Content-Length'] = os.stat(path).st_size
     f = open(path, 'r')
     if pathismine:
         os.unlink(path)
@@ -358,3 +359,4 @@ def main():
     return {'url': url}
 #}}}
 # vim: fdm=marker:tw=80:ts=4:sw=4:sts=4:et
+
