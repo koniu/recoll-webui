@@ -1422,7 +1422,7 @@ class BaseResponse(object):
             if key == 'expires':
                 if isinstance(value, (datedate, datetime)):
                     value = value.timetuple()
-                elif isinstance(value, (int, float)):
+                elif isinstance(value, (int, long, float)):
                     value = time.gmtime(value)
                 value = time.strftime("%a, %d %b %Y %H:%M:%S GMT", value)
             self._cookies[name][key.replace('_', '-')] = value
