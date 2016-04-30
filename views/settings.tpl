@@ -22,6 +22,9 @@
 		<small>{{d}}</small><input name="mount_{{d}}" value={{mounts[d]}}>
 	%end
 	<hr>
+        <b>CSV fields</b> <small class="gray">({{fields}})</small><br>
+        <input name="csvfields" value="{{csvfields}}">
+        <hr>
 	<b>Add to browser</b>
 	<br>
 	<a href="#" onClick="addOpenSearch();return false">Register recoll into browser search engines</a>
