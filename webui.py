@@ -39,6 +39,7 @@ DEFAULTS = {
     'maxresults': 0,
     'perpage': 25,
     'csvfields': 'filename title author size time mtype url',
+    'title_link': 'download',
 }
 
 # sort fields/labels
