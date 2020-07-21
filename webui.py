@@ -40,6 +40,15 @@ DEFAULTS = {
     'perpage': 25,
     'csvfields': 'filename title author size time mtype url',
     'title_link': 'download',
+    'mounts': {
+        # Override default links for directories.
+        # Useful for rewriting links to access the files on a server.
+        # If not specified, the url will be dir path prefixed with 'file://'.
+        #
+        # Path in recoll.conf   : Remote url
+        # '/media/data/docs'    : 'https://media.server.com/docs',
+        # '/var/www/data'       : 'file:///192.168.1.2/data',
+    },
 }
 
 # sort fields/labels
@@ -123,7 +132,7 @@ def get_config():
     config['mounts'] = {}
     for d in config['dirs']:
         name = 'mount_%s' % urllib.quote(d,'')
-        config['mounts'][d] = select([bottle.request.get_cookie(name), 'file://%s' % d], [None, ''])
+        config['mounts'][d] = select([bottle.request.get_cookie(name), DEFAULTS['mounts'].get(d), 'file://%s' % d], [None, ''])
     return config
 #}}}
 #{{{ get_dirs
